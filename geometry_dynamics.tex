@@ -419,26 +419,277 @@ Under assumptions of full rank and non degenerate data:
     \end{center}
 \end{frame}
 \begin{frame}{Gradient Flow}
-Two layers DLN
+\begin{block}{Two-layer DLN}
 \begin{align*}
-    W & := W_L...W_1\\
-    W_{>l} & := W_L...W_{l+1} \\
-    W_{<l} & := W_{l-1}...W_{1} \\
-    \Delta(W) & := \Sigma_{YX} - W
+    W &:= W_2W_1, &
+    R(W) &:= \Sigma_{YX}-W_2W_1 .
 \end{align*}
-Gradient of the population loss for each layer of a DLN:
+
+For the population loss
+\[
+    \mathcal{L}(W_1,W_2)=\frac{1}{2}\|\Sigma_{YX}-W_2W_1\|_F^2,
+\]
+gradient flow is
 \begin{align*}
-    \dot{W}_l & = W_{>l}^{\top}\nabla_W \mathcal{L}(W)W_{<l}^{\top}\\
-    \dot{W}_l & = W_{>l}^{\top}\Delta(W)W_{<l}^{\top}
+    \dot{W}_1 &= W_2^{\top}R(W),\\
+    \dot{W}_2 &= R(W)W_1^{\top}.
 \end{align*}
+\end{block}
 \end{frame}
-\begin{frame}{Symmetries induce conserved quantities}
-    
+\begin{frame}[plain]
+\centering
+\includegraphics[width=\paperwidth,height=\paperheight,keepaspectratio]{figures/conserved_quantities.png}
 \end{frame}
 \begin{frame}{The manifold of gradient flow}
 Gradient flow is constrained on the following hyperbolic manifold:
 \begin{equation*}
-    \mathcal{M}_G := \{\theta\in\Omega| W_{l+1}^{\top}W_{l+1} - W_{l}W_{l}^{\top} = G_l\}
+    \mathcal{M}_{\beta} := \{\theta\in\Omega| W_{l+1}^{\top}W_{l+1} - W_{l}W_{l}^{\top} = \beta_l\}
 \end{equation*}
+\begin{block}{Gradient flow on the balanced variety}
+On the balanced variety $\mathcal{M}_0$, self consistent gradient flow equation in function space:
+\begin{equation*}
+    \dot{W}
+    =
+    \sum_{k=1}^{L}
+    (WW^{\top})^{\frac{L-k}{L}}
+    R(W)
+    (W^{\top}W)^{\frac{k-1}{L}},
+    \qquad
+    R(W):=\Sigma_{YX}-W.
+\end{equation*}
+For depth $2$:
+\[
+    \mathcal{M}_0
+    =
+    \{(W_1,W_2)\mid W_2^{\top}W_2=W_1W_1^{\top}\}.
+\]
+\begin{equation*}
+    \dot{W}
+    =
+    (WW^{\top})^{\frac{1}{2}}R(W)
+    +
+    R(W)(W^{\top}W)^{\frac{1}{2}}.
+\end{equation*}
+\end{block}
+\end{frame}
+\begin{frame}{Foliation of the balance manifold}
+    The conserved balanced quantities
+\[
+B_\ell(\theta)
+=
+W_{\ell+1}^{\top}W_{\ell+1}
+-
+W_\ell W_\ell^{\top}
+\]
+define level sets
+\[
+\mathcal M_G = B^{-1}(G).
+\]
+Thus parameter space decomposes as
+\[
+\Omega=\bigsqcup_G \mathcal M_G.
+\]
+Since \(\frac{d}{dt}B_\ell(\theta(t))=0\) along gradient flow, each
+\(\mathcal M_G\) is invariant.
+\end{frame}
+\begin{frame}
+    \begin{block}{Rank strata inside the balanced leaf}
+TODO: Link with rank patterns
+On the balanced leaf \(\mathcal M_0\),
+\[
+    W_{\ell+1}^{\top}W_{\ell+1}
+    =
+    W_\ell W_\ell^{\top}.
+\]
+Hence consecutive layers have the same singular values, and therefore the same rank.
+Thus
+\[
+    \mathcal M_0
+    =
+    \bigsqcup_r \mathcal M_r,
+    \qquad
+    \mathcal M_r
+    :=
+    \{\theta\in\mathcal M_0:\operatorname{rank}(W_\ell)=r\ \forall \ell\}=\mathcal M_0 \cap \mathcal{O}_{\rho_{i,i+1} = r}
+\]
+Moreover,
+\[
+    \mu(\mathcal M_r)
+    =
+    \mathcal F_r
+    :=
+    \{W\in\mathcal F:\operatorname{rank}(W)=r\}.
+\]
+Thus the balanced rank-\(r\) parameter leaf projects to the rank-\(r\) stratum of
+function space.
+\end{block}
+\end{frame}
+\begin{frame}{Riemannian flow}
+    \begin{block}{Why the projected flow is Riemannian}
+On a balanced rank stratum \(\mathcal M_r\), the product map
+\[
+    \mu:\mathcal M_r\to\mathcal F_r
+\]
+is a Riemannian submersion when \(\mathcal F_r\) is equipped with the induced metric
+\[
+    \|Z\|_{g_L,W}^2
+    =
+    \min_{D\mu_\theta[\dot\theta]=Z}
+    \sum_{\ell=1}^L \|\dot W_\ell\|_F^2 .
+\]
+Since \(\mathcal L\circ\mu\) is constant along the fibers of \(\mu\), its Euclidean gradient is
+horizontal. Therefore
+\[
+    D\mu_\theta[\nabla_\theta(\mathcal L\circ\mu)]
+    =
+    \operatorname{grad}_{g_L}\mathcal L(W),
+\]
+and the parameter gradient flow projects to
+\[
+    \dot W=-\operatorname{grad}_{g_L}E(W).
+\]
+\end{block}
+\end{frame}
+\begin{frame}
+    \begin{block}{From energy to free energy}
+The product map has fibers
+\[
+    \mathcal O_W:=\mu^{-1}(W)\cap\mathcal M_r ,
+\]
+i.e. many parameter microstates represent the same function \(W\).
+Their volume defines a Boltzmann entropy
+\[
+    S(W):=\log\operatorname{vol}(\mathcal O_W).
+\]
+With microscopic fluctuations along the fibers, the effective macroscopic objective is
+\[
+    F_\beta(W)=E(W)-\frac1\beta S(W).
+\]
+Thus the Riemannian energy flow is replaced by free-energy flow:
+\[
+    \dot W=-\operatorname{grad}_{g_L}F_\beta(W)
+    =
+    -\operatorname{grad}_{g_L}E(W)
+    +\frac1\beta\operatorname{grad}_{g_L}S(W).
+\]
+\end{block}
+\end{frame}
+\begin{frame}{Spectral entropy on the balanced manifold}
+
+Balanced layers have the same singular values
+\[
+\lambda_1,\dots,\lambda_d,
+\qquad
+\sigma_i=\lambda_i^L.
+\]
+\begin{block}{Entropy}
+Boltzmann entropy of orbit:
+\[
+S(W):=\log \operatorname{vol}(\mathcal O_W).
+\]
+Menon formula:
+\[
+S(W)
+=
+(L-1)\log c_d
++
+\frac12\sum_{i<j}
+\log\!\left(
+\frac{\lambda_i^{2L}-\lambda_j^{2L}}
+     {\lambda_i^2-\lambda_j^2}
+\right).
+\]
+\end{block}
+
+\end{frame}
+\begin{frame}{Spectral entropy as a continuous refinement of rank}
+
+On the balanced manifold, every partial product has spectrum
+\[
+\operatorname{Spec}_{\rm sing}(W_j\cdots W_i)
+=
+\{\lambda_a^{\,j-i+1}\}_{a=1}^d.
+\]
+So the whole spectral pattern is determined by \(\lambda\).
+Hence
+\[
+S(W)=S(\lambda_1,\dots,\lambda_d).
+\]
+\begin{block}{Takeaway}
+\[
+\text{rank pattern} \quad \leadsto \quad \text{spectral pattern} \quad \leadsto \quad \text{spectral entropy}.
+\]
+
+Rank tells us \emph{which modes are present}.  
+Spectral entropy tells us \emph{how much balanced factorization volume} those modes carry.
+\end{block}
+
+\end{frame}
+%----------Lazy Regime for DLNs-----------
+\begin{frame}{Lazy regime in DLNs}
+\begin{block}{Proposition}
+For a DLN of depth $L$ in the large width limit, or with a large layer imbalance, we have:
+    \begin{align*}
+    \dot{W} & \approx K_0[M - W]
+\end{align*}
+Leading to the following solution:
+\begin{equation*}
+    W(t) = M - \exp(-K_0 t)[M - W(0)]
+\end{equation*}
+\end{block}
+The time scale of learning is mostly fixed by the NTK at initialization:
+\begin{equation*}
+    t \approx -k_0^{-1}\log\left(\frac{s - w_f}{s - w_0}\right)
+\end{equation*}
+No stagewise learning, the structure of the data barely influences the training dynamics, behaves like a linear network.
+\end{frame}
+%----------Rich Regime for DLNs-----------
+\begin{frame}{Rich regime in DLNs}
+Assume whitened inputs $\Sigma_X = I$ and $\Sigma_{YX} = U S V^{\top}$. Define a 2-layer DLN layerwise-modes as:
+\begin{equation*}
+    w_1^{\alpha} := W_1 v^{\alpha} \in \mathbb{R}^{d_1}, 
+    \qquad
+    w_2^{\alpha} := W_2^{\top} u^{\alpha} \in \mathbb{R}^{d_1},
+\end{equation*}
+We have the DLN's mode matrix:
+\begin{equation*}
+    w_{\alpha\beta}=u^{\alpha\top} W_2 W_1 v^{\beta} = (w_2^{\alpha})^{\top} w_1^{\beta}.
+\end{equation*}
+Assuming gradient flow on the balanced manifold, using the self-consistent GF equation:
+\begin{equation*}
+    \dot{w}_{\alpha\alpha} = 2\left(s_{\alpha} - w_{\alpha\alpha}\right)w_{\alpha\alpha}
+    - 2\sum_{\beta\neq\alpha} \left(w_{\alpha\beta}\right)^2 .
+\end{equation*}
+\end{frame}
+\begin{frame}{Rich regime in DLNs}
+We neglect the cross-mode terms $w_{\alpha\beta}$ (weights are aligned).
+\begin{block}{Logistic feature learning}
+    For balanced and aligned weights, GF reduces to a system of 1D logistic ODEs:
+\begin{equation*}
+    \dot{w}_{\alpha} = 2\left(s_{\alpha} - w_{\alpha}\right)w_{\alpha}.
+\end{equation*}
+Solving this ODE for $w(t):=w_{\alpha}$ gives:
+\begin{equation*}
+    w(t)=\frac{s}{1+\left(\frac{s}{w_0}-1\right)e^{-2s t}}.
+\end{equation*}
+\end{block}
+\end{frame}
+\begin{frame}{Time scale of learning in the rich regime}
+ The elapsed time to go from $w_0$ to $w_f$ is
+\[
+t=\frac{1}{2s}\,\ln\!\left(\frac{w_f\,(s-w_0)}{w_0\,(s-w_f)}\right), \qquad s\neq 0.
+\]
+For depth $L$:
+\[
+t=\frac{1}{L} \left[ \frac{1}{s^{2}} \ln\!\left(\frac{w_f\,(s - w_0)}{w_0\,(s - w_f)}\right)
++ \frac{1}{s\,w_0} - \frac{1}{s\,w_f} \right].
+\]
+\begin{block}{Rich regime}
+\begin{itemize}
+    \item Stagewise learning ordered by the magnitude of singular values
+    \item Saddle to saddle dynamics: GF goes from low to high rank saddles
+    \item Simplicity bias of gradient flow and low-hanging fruit prior
+\end{itemize}
+\end{block}
 \end{frame}
 \end{document}
