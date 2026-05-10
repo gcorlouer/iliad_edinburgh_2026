@@ -16,10 +16,10 @@
 \begin{frame}{Motivation 1: Implicit biases of the training process have safety implication}
 \begin{itemize}
     \item Parameter $\theta\in \Omega$, input-output data $(Y,X)\sim P$, Neural network $f(\theta, x)$
-    \item Degenerate functions: on input $x$ many parameters are compatible with low loss $f(\theta,x)\approx f(\theta',x)$ 
+    \item Degenerate functions: on samples $x$ many parameters are compatible with low loss $f(\theta,x)\approx f(\theta',x)$ 
     \item Indinstiguishable on training and eval data
     \item However for some out of distribution input $x_o$, model $f(\theta,x_o)$ is unsafe and $f(\theta',x_o)$ is safe
-    \item The data, hyperaparameters, optimization determine if training favour safe or unsafe model
+    \item The data, hyperaparameters, learning process determine if training favour safe or unsafe model
 \end{itemize}
 
 \end{frame}
@@ -386,7 +386,7 @@ With $r_{ij} := \operatorname{rank}(W_{i\to j})$ and $r_{ii}=d_i$ the \textit{ra
 \end{comment}
 \begin{frame}{Stratification of the detreminental variety}
 \begin{block}{Orbits are parameterized by rank patterns}
-We have $G_d$ action over $\Sigma_d^r$ hence:
+We have $G_d$ action over $\Sigma_d^r$ hence stratification:
 \[
 \Sigma_d^r = \bigsqcup_{\rho\in R^r_d} \mathcal O_{\rho}
 \] 
@@ -411,7 +411,6 @@ In general we only have:
 \operatorname{RLCT}(\mathcal{L}^{-1})(0)  \leq \frac{1}{2}\text{codim}_{\text{Rep}_d}(\mathcal{L}^{-1}(0))
 \]
 \end{block}
-DLN are ``midly'' singular.\\
 Ref: \textit{Lehalleur, Simon Pepin, and Richárd Rimányi. "Geometry of fibers of the multiplication map of deep linear neural networks." arXiv preprint arXiv:2411.19920 (2024).}
 \end{frame}
 \begin{frame}{Discussion}
@@ -424,13 +423,20 @@ Under assumptions of full rank and non degenerate data:
         \item The Codimension of the global minima is twice the RLCT
     \end{itemize}
 \end{block}
-\begin{block}{Open problems}
-    \begin{itemize}
-        \item Loss landscapes of non linear networks (ReLU)
-        \item Geometric invariants for non linear networks
-        \item Combinatorial description of all critical points (work in progress)
-    \end{itemize}
-\end{block}
+\end{frame}
+\begin{frame}{References}
+\begin{itemize}
+    \item Kenji Kawaguchi. Deep learning without poor local minima \textit{Advances in neural
+information processing systems}, 29, 2016.
+    \item El Mehdi Achour, François Malgouyres, and Sébastien Gerchinovitz. The loss
+landscape of deep linear neural networks: a second-order analysis. \textit{Journal of
+Machine Learning Research}, 25(242):1–76, 2024.
+    \item Anna Choromanska, Mikael Henaff, Michael Mathieu, Gérard Ben Arous, and
+Yann LeCun. The loss surfaces of multilayer networks. In \textit{Artificial intelligence
+and statistics}, pages 192–204. PMLR, 2015.
+    \item Lehalleur, Simon Pepin and Rim{\'a}nyi, Rich{\'a}rd. Geometry of fibers of the multiplication map of deep linear neural networks, arXiv preprint arXiv:2411.19920, 2024.
+    \item Chen, Po and Jiang, Rujun and Wang, Peng. A Complete Loss Landscape Analysis of Regularized Deep Matrix Factorization, arXiv preprint arXiv:2506.20344, 2025.
+\end{itemize}
 \end{frame}
 \begin{frame}
     \begin{center}
@@ -648,6 +654,23 @@ S(W)
 
 \end{frame}
 \end{comment}
+\begin{frame}{References}
+    \begin{itemize}
+        \item Menon, Govind. The geometry of the deep linear network. Symposium on Probability and Stochastic Processes. Cham: Springer Nature Switzerland, 2023.
+        \item Sibylle Marcotte, R\'emi Gribonval, and Gabriel Peyr\'e. Abide by the law and
+follow the flow: Conservation laws for gradient flows. \textit{Advances in neural
+information processing systems}, 36:63210–63221, 2023.
+    \item Sanjeev Arora, Nadav Cohen, Noah Golowich, and Wei Hu. \textit{A convergence
+analysis of gradient descent for deep linear neural networks}. arXiv preprint
+arXiv:1810.02281, 2018
+    \item Arthur Jacot, Franck Gabriel, and Cl\'ement Hongler. Neural tangent kernel: Con-
+    vergence and generalization in neural networks. \textit{Advances in neural information
+    processing systems}, 31, 2018.
+    \item Jeremy M Cohen, Alex Damian, Ameet Talwalkar, J Zico Kolter, and Jason D
+    Lee. Understanding optimization in deep learning with central flows. arXiv
+    preprint arXiv:2410.24206, 2024
+    \end{itemize}
+\end{frame}
 %----------Rich Regime for DLNs-----------
 \begin{frame}{Rich regime in DLNs}
 Assume whitened inputs $\Sigma_X = I$ and $\Sigma_{YX} = U S V^{\top}$. Define a 2-layer DLN layerwise-modes as:
@@ -666,6 +689,7 @@ Assuming gradient flow on the balanced manifold, using the self-consistent GF eq
     - 2\sum_{\beta\neq\alpha} \left(w_{\alpha\beta}\right)^2 .
 \end{equation*}
 \end{frame}
+\begin{comment}
 \begin{frame}{Rich regime in DLNs}
 We neglect the cross-mode terms $w_{\alpha\beta}$ (weights are aligned).
 \begin{block}{Logistic feature learning}
@@ -679,6 +703,8 @@ Solving this ODE for $w(t):=w_{\alpha}$ gives:
 \end{equation*}
 \end{block}
 \end{frame}
+\end{comment}
+\begin{comment}
 \begin{frame}{Time scale of learning in the rich regime}
  The elapsed time to go from $w_0$ to $w_f$ is
 \[
@@ -697,6 +723,16 @@ t=\frac{1}{L} \left[ \frac{1}{s^{2}} \ln\!\left(\frac{w_f\,(s - w_0)}{w_0\,(s - 
 \end{itemize}
 \end{block}
 \end{frame}
+\end{comment}
+\begin{frame}[plain]
+\centering
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{figures/rich_regime.png}
+\end{frame}
+\begin{frame}[plain]
+\centering
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{figures/linear_regime.png}
+\end{frame}
+\begin{comment}
 %----------Lazy Regime for DLNs-----------
 \begin{frame}{Linear regime in DLNs}
 \begin{block}{Proposition}
@@ -715,12 +751,43 @@ The time scale of learning is mostly fixed by the NTK at initialization:
 \end{equation*}
 No stagewise learning, the structure of the data barely influences the training dynamics, behaves like a linear network.
 \end{frame}
+\end{comment}
+\begin{frame}{References}
+    \begin{itemize}
+        \item Saxe, Andrew M., James L. McClelland, and Surya Ganguli. A mathematical theory of semantic development in deep neural networks. \textit{Proceedings of the National Academy of Sciences} 116.23 (2019): 11537-11546.
+        \item Jacot, Arthur, et al. Saddle-to-saddle dynamics in deep linear networks: Small initialization training, symmetry, and sparsity. \textit{arXiv preprint} arXiv:2106.15933 (2021).
+        \item Dominé, Clémentine CJ, et al. From lazy to rich: Exact learning dynamics in deep linear networks. \textit{arXiv preprint} arXiv:2409.14623 (2024)
+        \item Zhang, Yedi, Andrew Saxe, and Peter E. Latham. Saddle-to-Saddle Dynamics Explains A Simplicity Bias Across Neural Network Architectures. \textit{arXiv preprint} arXiv:2512.20607 (2025).
+        \item Zhenfeng Tu, Santiago Tomas Aranguri Diaz, and Arthur Jacot. Mixed dynamics
+in linear networks: Unifying the lazy and active regimes. \textit{Advances in Neural
+Information Processing Systems}, 37:106059–106104, 2024.
+    \end{itemize}
+\end{frame}
+\begin{frame}{Discussion}
+    \begin{itemize}
+    \item DLNs are mathematically tractable and informative about deep learning
+    \item Useful to understand implicit biases from depth, scale, overparametrization, hyperparameters, optimizers
+    \item Symmetries and conserved quantities are central
+    \item Study different regimes of training dynamics (Rich vs Lazy regime)
+    \item However, very limited: cannot learn non-linear compositional structure
+\end{itemize}
+\end{frame}
+\begin{frame}{Research directions}
+    \begin{itemize}
+        \item Generalizing volume formula to rank deficient case for saddle to saddle
+        \item Toy models of hierarchical learning (non linearities)
+        \item Combinatorial description of all critical points (work in progress)
+        \item Loss landscapes of non linear networks (ReLU)
+        \item Geometric invariants for non linear networks
+    \end{itemize}
+\end{frame}
+\begin{frame}
+    Stuff that we did not talk about
+\end{frame}
 \begin{frame}
     TODO
 \begin{itemize}
-    \item References Slides
     \item Langevin Dynamics slide
-    \item Discussion Slide
     \item Make nicer slides for intro
 \end{itemize}
 \end{frame}
