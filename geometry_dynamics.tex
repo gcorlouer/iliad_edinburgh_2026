@@ -98,11 +98,26 @@ Global minimizer achieving zero loss: $\exists \theta^{\star}\in \Omega,\ \mu(\t
 Structure of the data encoded by $\Sigma_{YX}$
 
 \end{frame}
+\begin{frame}{Motivation}
+\begin{itemize}
+    \item Mathematically tractable toy model and capture relevant phenomena
+    \item Some behaviours transfer to non linear Architectures
+    \item First basic model to start understanding implicit biases and weights interpretability over training 
+\end{itemize}
+\end{frame}
 \begin{frame}
     \centering Empirical phenomena
 \end{frame}
 
 \begin{frame}{Training losses}
+Initialize weights: $\theta \sim N(0,\sigma^{-\frac{\gamma}{2}})$
+\\
+$\gamma < 1$: large initialization, linear regime (NTK)
+\\
+$\gamma > 1$: small initialization, saddle to saddle
+\\
+$\gamma = 1$: intermediary regime
+
     \begin{figure}
         \centering
         \includegraphics[width=\linewidth]{figures/DLN_losses_regimes.png}
@@ -251,7 +266,7 @@ Depth introduces three new critical points compared with the one layer DLN loss 
 
 \end{frame}
 
-
+\begin{comment}
 % ---------- Slide: Saddles or global minimum ----------
 \begin{frame}{Global minimum and saddles}
 
@@ -271,6 +286,7 @@ W=M=\operatorname{diag}(s_1,s_2),
 Since \(\mathcal L(\theta)\geq 0\), these critical points are global minima.
 \end{block}
 \end{frame}
+\end{comment}
 \begin{frame}[plain]
 \centering
 \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{figures/global_minima_saddle_3d_loss.png}
@@ -471,7 +487,7 @@ gradient flow is
 \end{frame}
 \begin{frame}[plain]
 \centering
-\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{figures/balanced_cone_micro_states.pnd.png}
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{figures/balanced_cone_micro_states.png}
 \end{frame}
 \begin{comment}
 \begin{frame}{Foliation of the balance manifold}
@@ -672,7 +688,7 @@ arXiv:1810.02281, 2018
     \end{itemize}
 \end{frame}
 %----------Rich Regime for DLNs-----------
-\begin{frame}{Rich regime in DLNs}
+\begin{frame}{Saddle to saddle regime in DLNs}
 Assume whitened inputs $\Sigma_X = I$ and $\Sigma_{YX} = U S V^{\top}$. Define a 2-layer DLN layerwise-modes as:
 \begin{equation*}
     w_1^{\alpha} := W_1 v^{\alpha} \in \mathbb{R}^{d_1}, 
@@ -774,21 +790,26 @@ Information Processing Systems}, 37:106059–106104, 2024.
 \end{frame}
 \begin{frame}{Research directions}
     \begin{itemize}
-        \item Generalizing volume formula to rank deficient case for saddle to saddle
-        \item Toy models of hierarchical learning (non linearities)
         \item Combinatorial description of all critical points (work in progress)
+        \item Generalizing volume formula to rank deficient case 
+        \item Volume formula for transient saddle to saddle regime
         \item Loss landscapes of non linear networks (ReLU)
         \item Geometric invariants for non linear networks
+        \item Toy models of hierarchical learning (non linearities)
     \end{itemize}
 \end{frame}
 \begin{frame}
-    Stuff that we did not talk about
+    Stuff that we did not talk about:
+    \begin{itemize}
+        \item Data distribution
+        \item Non linearities (gated DLNs)
+        \item Stochasticity
+        \item Discrete Learning rate
+        \item Scale and statistical field theory
+    \end{itemize}
 \end{frame}
-\begin{frame}
-    TODO
-\begin{itemize}
-    \item Langevin Dynamics slide
-    \item Make nicer slides for intro
-\end{itemize}
+\begin{frame}[plain]
+\centering
+\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{figures/summary_menon.png}
 \end{frame}
 \end{document}
